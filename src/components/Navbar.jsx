@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 export default function Navbar() {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
-  
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -13,38 +13,43 @@ export default function Navbar() {
       console.error('Failed to log out', error);
     }
   };
-  
+
   return (
     <nav className="bg-indigo-600 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold">Finance Tracker</span>
-            </Link>
-          </div>
-          
-          <div className="flex items-center">
+        <div className="flex justify-between h-16 items-center">
+          <Link to="/" className=" text-xl font-bold !text-white">
+            Finance Tracker
+          </Link>
+
+          <div className="flex items-center space-x-4">
             {currentUser ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-sm">{currentUser.email}</span>
+              <>
+                <span className="w-8 h-8 rounded-full bg-white text-indigo-600 font-semibold flex items-center justify-center text-sm uppercase">
+                  {currentUser.email.charAt(0)}
+                </span>
                 <button
                   onClick={handleLogout}
-                  className="bg-indigo-700 hover:bg-indigo-800 px-3 py-2 rounded text-sm"
+                  className="bg-white text-indigo-600 hover:bg-gray-100 px-3 py-1.5 rounded text-sm font-medium transition"
                 >
                   Logout
                 </button>
-              </div>
+              </>
             ) : (
-              <div className="flex items-center space-x-4">
-                <Link to="/login" className="hover:text-gray-200">Login</Link>
-                <Link 
-                  to="/signup" 
-                  className="bg-indigo-700 hover:bg-indigo-800 px-3 py-2 rounded text-sm"
+              <>
+                <Link
+                  to="/login"
+                  className="bg-white text-indigo-600 hover:bg-gray-100 px-3 py-1.5 rounded text-sm font-medium transition"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-white text-indigo-600 hover:bg-gray-100 px-3 py-1.5 rounded text-sm font-medium transition"
                 >
                   Sign Up
                 </Link>
-              </div>
+              </>
             )}
           </div>
         </div>

@@ -18,19 +18,24 @@ export function useFirestore(collectionName) {
   const [error, setError] = useState(null);
 
   // Add a document
-  const addDocument = async (data) => {
-    try {
-      await addDoc(collection(db, collectionName), {
-        ...data,
-        createdAt: new Date()
-      });
-      return { success: true };
-    } catch (err) {
-      console.error('Error adding document:', err);
-      setError('Could not add document');
-      return { success: false, error: err.message };
-    }
-  };
+    const addDocument = async (data) => {
+      try {
+        // Make sure userId is included in the data
+        if (!data.userId) {
+          throw new Error("User ID is required");
+        }
+        
+        await addDoc(collection(db, collectionName), {
+          ...data,
+          createdAt: new Date()
+        });
+        return { success: true };
+      } catch (err) {
+        console.error('Error adding document:', err);
+        setError('Could not add document');
+        return { success: false, error: err.message };
+      }
+    };
 
   // Delete a document
   const deleteDocument = async (id) => {
